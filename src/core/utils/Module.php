@@ -28,7 +28,7 @@ class Module
      */
     public static function fetchAllModule(){
         $module = array();
-        $modulePath = PATH_SYSTEM."/modules";
+        $modulePath = PATH_ROOT."/system/modules";
         if ($dh = opendir($modulePath)) {
             while (($file = readdir($dh)) !== false) {
                 if (is_dir($modulePath . "/" . $file) && $file != "." && $file != ".." && file_exists($modulePath . "/" . $file . "/install/config.php")) {
