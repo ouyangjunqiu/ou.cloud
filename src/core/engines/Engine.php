@@ -61,7 +61,7 @@ abstract class Engine {
      *
      */
     public function bootstrap(){
-
+        \Yii::setAlias('@data', PATH_ROOT . DIRECTORY_SEPARATOR . 'data');
     }
 
     /**

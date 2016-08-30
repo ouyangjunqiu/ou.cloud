@@ -32,8 +32,8 @@ class Product extends Engine {
         foreach($databases as $key => $value){
             $connectionString = "mysql:host={$value['host']};port={$value['port']};dbname={$value['dbname']}";
             $components[$key] = array(
-                'class' => '\yii\db\Connection',
-                'connectionString' => $connectionString,
+                'class' => 'yii\db\Connection',
+                'dsn' => $connectionString,
                 'username' => $value['username'],
                 'password' => $value['password'],
                 'tablePrefix' => $value['tableprefix'],
@@ -43,18 +43,13 @@ class Product extends Engine {
         $config = array(
             'runtimePath' => PATH_ROOT . DIRECTORY_SEPARATOR . 'data/runtime',
             'language' => $localConfig['env']['language'],
-            'theme' => $localConfig['env']['theme'],
-            'components' => $components,
+            'components' => $components
         );
         unset($localConfig['databases']);
         unset($localConfig['env']);
         unset($localConfig['runtimePath']);
         unset($localConfig['language']);
         unset($localConfig['theme']);
-
-      //  Cloud::setPathOfAlias( 'data', PATH_ROOT . DIRECTORY_SEPARATOR . 'data' );
-        // 设置引擎驱动别名
-      //  Cloud::setPathOfAlias( 'engineDriver', Cloud::getPathOfAlias( 'cloud.core.engines.local' ) );
 
         $this->setConfig(ArrayHelper::merge($config,$localConfig));
     }
