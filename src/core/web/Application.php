@@ -8,9 +8,7 @@
 namespace cloud\core\web;
 
 use cloud\Cloud;
-use cloud\core\engines\Engine;
 use cloud\core\utils\Module;
-use Yii;
 use yii\helpers\ArrayHelper;
 
 class Application extends \yii\web\Application {
@@ -27,14 +25,10 @@ class Application extends \yii\web\Application {
      */
     public function preInit(&$config) {
 
-        $engineClass = 'cloud\core\engines\\' . ( ucfirst( strtolower( ENGINE ) ) );
-        /**
-         * @var Engine $engine
-         */
-        $engine = new $engineClass();
-        Cloud::setEngine( $engine );
+        $config["basePath"] = PATH_ROOT . DIRECTORY_SEPARATOR . 'system';
+        $config["defaultController"] = 'main/default/index';
 
-        $config = ArrayHelper::merge($config,$engine->getConfig());
+        $config = ArrayHelper::merge($config,Cloud::engine()->getConfig());
 
         $this->_enabledModule = Module::fetchAllModule();
         foreach ($this->_enabledModule as $name => $mc) {
@@ -44,13 +38,14 @@ class Application extends \yii\web\Application {
             }
         }
 
+        print_r($config);
         parent::preInit($config);
     }
 
 
     public function bootstrap()
     {
-        $this->on(self::EVENT_BEFORE_REQUEST,['cloud\core\web\InitEnv','handle']);
+        //$this->on(self::EVENT_BEFORE_REQUEST,['cloud\core\web\InitEnv','handle']);
 
         $engine = Cloud::engine();
         $engine->bootstrap();

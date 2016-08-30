@@ -4,6 +4,8 @@
 defined('PATH_ROOT') or define( 'PATH_ROOT', dirname(__DIR__) );
 
 require(__DIR__ . '/../vendor/autoload.php');
-require(__DIR__ . '/../vendor/cloud/Cloud.php');
+require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+$config = array();
 
-(new cloud\core\web\Application(array()))->run();
+$app = (new cloud\core\web\Application($config));
+$app->run();

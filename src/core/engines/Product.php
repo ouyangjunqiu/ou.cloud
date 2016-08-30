@@ -14,17 +14,17 @@ use cloud\core\engines\local\LocalIo;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
-class Local extends Engine {
+class Product extends Engine {
 
     /**
      * 本地引擎初始化配置方法
      */
     protected function init() {
         // 本地环境使用安装时配置的数据库信息
-        if(!file_exists(PATH_ROOT."/data/config/local.php")){
-            throw new Exception("local.php not exists");
+        if(!file_exists(PATH_ROOT."/data/config/product.php")){
+            throw new Exception("product.php not exists");
         }
-        $localConfig = require_once PATH_ROOT."/data/config/local.php";
+        $localConfig = require_once PATH_ROOT."/data/config/product.php";
 
         $databases = isset($localConfig["databases"]) && is_array($localConfig["databases"])?$localConfig["databases"]:array();
 
@@ -44,7 +44,7 @@ class Local extends Engine {
             'runtimePath' => PATH_ROOT . DIRECTORY_SEPARATOR . 'data/runtime',
             'language' => $localConfig['env']['language'],
             'theme' => $localConfig['env']['theme'],
-            'components' => $components
+            'components' => $components,
         );
         unset($localConfig['databases']);
         unset($localConfig['env']);
