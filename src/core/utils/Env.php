@@ -8,8 +8,8 @@
 
 namespace cloud\core\utils;
 
-use CException;
 use cloud\Cloud;
+use Exception;
 
 class Env {
 
@@ -72,26 +72,6 @@ class Env {
 		return $ip;
 	}
 
-	/**
-	 * ip限制访问
-	 * @param string $onlineip 要检查的ip地址
-	 * @return boolean 返回结果  
-	 */
-	public static function ipBanned( $onlineip ) {
-		Cache::load( 'ipbanned' );
-		$ipBanned = Cloud::app()->setting->get( 'cache/ipbanned' );
-		if ( empty( $ipBanned ) ) {
-			return false;
-		} else {
-			if ( $ipBanned['expiration'] < TIMESTAMP ) {
-				Cache::update( 'ipbanned' );
-				Cache::load( 'ipbanned', true );
-				$ipBanned = Cloud::app()->setting->get( 'cache/ipbanned' );
-			}
-			return preg_match( "/^(" . $ipBanned['regexp'] . ")$/", $onlineip );
-		}
-		return preg_match( "/^(" . $ipBanned['regexp'] . ")$/", $onlineip );
-	}
 
 	/**
 	 * 检查是否以手机进入
@@ -106,32 +86,18 @@ class Env {
 		}
 		$value = String::istrpos( $userAgent, self::$mobileBrowserList, true );
 		if ( $value ) {
-			Cloud::app()->setting->set( 'mobile', $value );
+			Cloud::$app->setting->set( 'mobile', $value );
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * 检查是否以手机APP进入
-	 * @return boolean 是否以手机APP进入
-	 */
-	public static function checkInApp() {
-		$route = Cloud::app()->getUrlManager()->parseUrl( Cloud::app()->getRequest() );
-		if ( !empty( $route ) ) {
-			list($module,, ) = explode( '/', $route );
-			if ( strtolower( $module ) == 'mobile' ) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * @return bool
 	 */
 	public static function isLogin(){
-		$user = \Yii::app()->session->get("user");
+		$user = \Yii::$app->session->get("user");
 		if(!isset($user) || empty($user))
 			return false;
 		return true;
@@ -141,7 +107,7 @@ class Env {
 	 * @return null
 	 */
 	public static function getUser(){
-		$user = \Yii::app()->session->get("user");
+		$user = \Yii::$app->session->get("user");
 		if(!isset($user) || empty($user))
 			return null;
 		return $user;
@@ -153,12 +119,12 @@ class Env {
 	 * @return string 处理后的重定向
 	 */
 	public static function referer( $default = '' ) {
-		$referer = Cloud::app()->setting->get( 'referer' );
-		$default = empty( $default ) ? Cloud::app()->urlManager->createUrl( 'main/default/index' ) : $default;
+		$referer = Cloud::$app->setting->get( 'referer' );
+		$default = empty( $default ) ? Cloud::$app->urlManager->createUrl( 'main/default/index' ) : $default;
 		//前一页地址，如果存在$_GET参数，否则使用$_SERVER
 		$referer = !empty( $_GET['referer'] ) ? $_GET['referer'] : (isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : $default);
 		//请求的页面是登陆页,返回主页
-		$loginPage = Cloud::app()->urlManager->createUrl( 'user/default/login' );
+		$loginPage = Cloud::$app->urlManager->createUrl( 'user/default/login' );
 		if ( strpos( $referer, $loginPage ) ) {
 			$referer = $default;
 		}
@@ -166,7 +132,7 @@ class Env {
 		$referer = String::ihtmlSpecialChars( $referer, ENT_QUOTES );
 		$referer = strip_tags( str_replace( '&amp;', '&', $referer ) );
 		// 写入全局组件
-		Cloud::app()->setting->set( 'referer', $referer );
+		Cloud::$app->setting->set( 'referer', $referer );
 		return $referer;
 	}
 
@@ -178,19 +144,19 @@ class Env {
 	 */
 	public static function getRequest( $key, $type = 'GP' ) {
 		$type = strtoupper( $type );
-		$request = Cloud::app()->request;
+		$request = Cloud::$app->request;
 		switch ( $type ) {
 			case 'G':
-				$var = $request->getQuery( $key );
+				$var = $request->get( $key );
 				break;
 			case 'P':
-				$var = $request->getPost( $key );
+				$var = $request->post( $key );
 				break;
 			case 'C':
 				$var = isset( $_COOKIE[$key] ) ? $_COOKIE[$key] : null;
 				break;
 			default :
-				$var = $request->getParam( $key );
+				$var = isset( $_REQUEST[$key] )?$_REQUEST[$key] : null;
 				break;
 		}
 		return isset($var) && is_string($var)?trim($var):$var;
@@ -207,42 +173,6 @@ class Env {
 	}
 
 
-	/**
-	 * @param $key
-	 * @param $defaultValue
-	 * @param $sessionKey
-	 * @return mixed
-	 * @deprecated
-	 */
-	public static function getRequestWithSessionDefault($key,$defaultValue,$sessionKey){
-		$var = self::getRequest($key);
-		if(isset($var) && !is_null($var)){
-			$var = trim($var);
-			Cloud::app()->session->add($sessionKey,$var);
-			return addslashes($var);
-		}else{
-			$var = Cloud::app()->session->get($sessionKey);
-			if(isset($var) && !is_null($var)){
-				$var = trim($var);
-				return addslashes($var);
-			}
-			return $defaultValue;
-		}
-	}
-
-	/**
-	 * @param $key
-	 * @param $defaultValue
-	 * @return string
-	 * @deprecated
-	 */
-	public static function getRequestWithDefault($key,$defaultValue){
-		$var = self::getRequest($key);
-		if(isset($var) && !is_null($var)){
-			return addslashes($var);
-		}
-		return $defaultValue;
-	}
 
 	/**
 	 * @param $key
@@ -267,10 +197,10 @@ class Env {
 		$sn = md5($prefix.".".$key);
 		$var = self::getQuery($key);
 		if(isset($var) && !is_null($var)){
-			Cloud::app()->session->add($sn,$var);
+			Cloud::$app->session->add($sn,$var);
 			return $var;
 		}else{
-			$var = Cloud::app()->session->get($sn);
+			$var = Cloud::$app->session->get($sn);
 			if(isset($var) && !is_null($var)){
 				return $var;
 			}
@@ -283,10 +213,9 @@ class Env {
 	 * @return string 
 	 */
 	public static function formHash() {
-		$global = Cloud::app()->setting->toArray();
-		$hashAdd = defined( 'IN_DASHBOARD' ) ? 'Only For Cloud Admin DASHBOARD' : '';
-		return substr( md5( substr( $global['timestamp'], 0, -7 ) . Cloud::app()->user->username .
-						Cloud::app()->user->uid . $global['authkey'] . $hashAdd ), 8, 8 );
+		$global = Cloud::$app->setting->toArray();
+		return substr( md5( substr( $global['timestamp'], 0, -7 ) . Cloud::$app->user->username .
+			Cloud::$app->user->uid . $global['authkey']), 8, 8 );
 	}
 
 	/**
@@ -294,17 +223,17 @@ class Env {
 	 * @param string $var 提交的变量
 	 * @param integer $allowGet 允许$_GET方式 默认为0
 	 * @return mixed 返回true变量正确提交，返回false没有这个变量,不是提交状态
-	 * @throws CException 提示即提交来源非法
+	 * @throws Exception 提示即提交来源非法
 	 */
 	public static function submitCheck( $var, $allowGet = 0 ) {
 		if ( self::getRequest( $var ) === null ) {
 			return false;
 		} else {
 			// ---- 表单提交变量检查 ----
-			$isPostRequest = Cloud::app()->request->getIsPostRequest();
+			$isPostRequest = Cloud::$app->request->getIsAjax();
 			$emptyFlashProtected = empty( $_SERVER['HTTP_X_FLASH_VERSION'] );
 			$emptyReferer = empty( $_SERVER['HTTP_REFERER'] );
-			$formHash = Cloud::app()->request->getParam( 'formhash' );
+			$formHash = self::getRequest( 'formhash' );
 			$formHashCorrect = !empty( $formHash ) && $formHash == self::formHash();
 			// -------------------------
 			$formPostCorrect = ( $isPostRequest && $formHashCorrect && $emptyFlashProtected && $emptyReferer );
@@ -313,7 +242,7 @@ class Env {
 			if ( $allowGet or ( $formPostCorrect or $refererEqualsHost ) ) {
 				return true;
 			} else {
-				throw new CException( Cloud::lang( 'Data type invalid', 'error' ) );
+				throw new Exception('Data type invalid');
 			}
 		}
 	}
@@ -371,45 +300,6 @@ class Env {
 		return '0';
 	}
 
-	//获取一条微博的来源信息
-	public static function getFromClient( $type = 0, $module = 'weibo' ) {
-		if ( $module != 'weibo' ) {
-			$modules = Cloud::app()->getEnabledModule();
-			if ( isset( $modules[$module] ) ) {
-				return '来自' . $modules[$module]['name'];
-			} else {
-				return '来自未知客户端';
-			}
-		}
-		$type = intval( $type );
-		$clientType = array(
-			0 => '来自网页',
-			1 => '来自手机版',
-			2 => '来自Android客户端',
-			3 => '来自iPhone客户端',
-			4 => '来自iPad客户端',
-			5 => '来自win.Phone客户端',
-			6 => '来自微信企业号',
-		);
-
-		//在列表中的
-		if ( in_array( $type, array_keys( $clientType ) ) ) {
-			return $clientType[$type];
-		} else {
-			return $clientType[0];
-		}
-	}
-
-	/**
-	 * 格式化header输出退出信息
-	 * @param int|string $msg
-	 *
-	 */
-	public static function iExit( $msg = 0 ) {
-		header( 'Content-Type:text/html; charset=' . CHARSET );
-		exit( $msg );
-	}
-
 	/**
 	 * 是否https链接
 	 * @return boolean
@@ -433,28 +323,11 @@ class Env {
 	}
 
 	/**
-	 * 获取当前脚本url
 	 * @return string
-	 * @throws CException
+	 * @throws \yii\base\InvalidConfigException
 	 */
 	public static function getScriptUrl() {
-		$phpSelf = '';
-		$scriptName = basename( $_SERVER['SCRIPT_FILENAME'] );
-		if ( basename( $_SERVER['SCRIPT_NAME'] ) === $scriptName ) {
-			$phpSelf = $_SERVER['SCRIPT_NAME'];
-		} else if ( basename( $_SERVER['PHP_SELF'] ) === $scriptName ) {
-			$phpSelf = $_SERVER['PHP_SELF'];
-		} else if ( isset( $_SERVER['ORIG_SCRIPT_NAME'] ) && basename( $_SERVER['ORIG_SCRIPT_NAME'] ) === $scriptName ) {
-			$phpSelf = $_SERVER['ORIG_SCRIPT_NAME'];
-		} else if ( ($pos = strpos( $_SERVER['PHP_SELF'], '/' . $scriptName )) !== false ) {
-			$phpSelf = substr( $_SERVER['SCRIPT_NAME'], 0, $pos ) . '/' . $scriptName;
-		} else if ( isset( $_SERVER['DOCUMENT_ROOT'] ) && strpos( $_SERVER['SCRIPT_FILENAME'], $_SERVER['DOCUMENT_ROOT'] ) === 0 ) {
-			$phpSelf = str_replace( '\\', '/', str_replace( $_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME'] ) );
-			$phpSelf[0] != '/' && $phpSelf = '/' . $phpSelf;
-		} else {
-			throw new CException( Cloud::lang( 'Request tainting', 'error' ) );
-		}
-		return $phpSelf;
+		return Cloud::$app->getUrlManager()->getScriptUrl();
 	}
 
 }

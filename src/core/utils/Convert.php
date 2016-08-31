@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 转换工具类,提供字符串及数字类型的转换，如字节数，颜色值，时间值等
+ * 转换工具类,提供字符串及数字类型的转换，如字节数，颜色值等
  * 
  * @package cloud.core.utils
  * @version $Id: convert.php -1   $
@@ -10,7 +10,6 @@
 
 namespace cloud\core\utils;
 
-use cloud\Cloud;
 use cloud\extensions\chinese\Chinese;
 
 class Convert {
@@ -47,80 +46,6 @@ class Convert {
 			$size = $size . ' Bytes';
 		}
 		return $size;
-	}
-
-	/**
-	 * 格式化时间 
-	 * @param string $timestamp 时间戳
-	 * @param string $format dt=日期时间 d=日期 t=时间 u=个性化 其他=自定义 默认为'dt'
-	 * @param string $timeOffset 时区偏移
-	 * @param string $uformat 用户自定义格式
-	 * @return string 
-	 */
-	public static function formatDate( $timestamp, $format = 'dt', $timeOffset = '9999', $uformat = '' ) {
-		$setting = Cloud::app()->setting->get( 'setting' );
-		$dateConvert = $setting['dateconvert'];
-		if ( $format == 'u' && !$dateConvert ) {
-			$format = 'dt';
-		}
-		$dateFormat = $setting['dateformat'];
-		$timeFormat = $setting['timeformat'];
-		$dayTimeFormat = $dateFormat . ' ' . $timeFormat;
-		$offset = $setting['timeoffset'];
-
-		$timeOffset = ($timeOffset == '9999') ? $offset : $timeOffset;
-		$timestamp += $timeOffset * 3600;
-		if ( empty( $format ) || $format == 'dt' ) {
-			$format = $dayTimeFormat;
-		} elseif ( $format == 'd' ) {
-			$format = $dateFormat;
-		} elseif ( $format == 't' ) {
-			$format = $timeFormat;
-		}
-		if ( $format == 'u' ) {
-			$todayTimestamp = TIMESTAMP - (TIMESTAMP + $timeOffset * 3600) % 86400 + $timeOffset * 3600;
-			$outputStr = gmdate( !$uformat ? $dayTimeFormat : $uformat, $timestamp );
-			$time = TIMESTAMP + $timeOffset * 3600 - $timestamp;
-			if ( $timestamp >= $todayTimestamp ) {
-				$replace = array( '{outputStr}' => $outputStr );
-				if ( $time > 3600 ) {
-					$replace['{outputTime}'] = intval( $time / 3600 );
-					$returnTimeStr = Cloud::lang( 'Time greaterthan 3600', 'date', $replace );
-				} elseif ( $time > 1800 ) {
-					$returnTimeStr = Cloud::lang( 'Time greaterthan 1800', 'date', $replace );
-				} elseif ( $time > 60 ) {
-					$replace['{outputTime}'] = intval( $time / 60 );
-					$returnTimeStr = Cloud::lang( 'Time greaterthan 60', 'date', $replace );
-				} elseif ( $time > 0 ) {
-					$replace['{outputTime}'] = $time;
-					$returnTimeStr = Cloud::lang( 'Time greaterthan 0', 'date', $replace );
-				} elseif ( $time == 0 ) {
-					$returnTimeStr = Cloud::lang( 'Time equal 0', 'date', $replace );
-				} else {
-					return $outputStr;
-				}
-				return $returnTimeStr;
-			} elseif ( ($days = intval( ($todayTimestamp - $timestamp) / 86400 )) >= 0 && $days < 7 ) {
-				$replace = array(
-					'{outputStr}' => $outputStr,
-					'{outputDay}' => gmdate( $timeFormat, $timestamp )
-				);
-				if ( $days == 0 ) {
-					$returnTimeStr = Cloud::lang( 'Day equal 0', 'date', $replace );
-				} elseif ( $days == 1 ) {
-					$returnTimeStr = Cloud::lang( 'Day equal 1', 'date', $replace );
-				} else {
-					$replace['{outputDay}'] = $days + 1;
-					$returnTimeStr = Cloud::lang( 'Day equal else', 'date', $replace );
-				}
-				return $returnTimeStr;
-			} else {
-				return $outputStr;
-			}
-		} else {
-			$returnTimeStr = gmdate( $format, $timestamp );
-			return $returnTimeStr;
-		}
 	}
 
 	/**
@@ -502,7 +427,7 @@ class Convert {
 	 * @return string
 	 *
 	 */
-	public static function iIconv( $str, $inCharset, $outCharset = CHARSET, $forceTable = false ) {
+	public static function iIconv( $str, $inCharset, $outCharset = "utf-8", $forceTable = false ) {
 
 		$inCharset = strtoupper( $inCharset );
 		$outCharset = strtoupper( $outCharset );
@@ -541,7 +466,7 @@ class Convert {
 		if ( !$fp ) {
 			return '*';
 		}
-		$in_code = strtoupper( CHARSET );
+		$in_code = strtoupper( "utf-8" );
 		$out_code = 'GBK';
 		$strlen = mb_strlen( $string, $in_code );
 		$ret = '';

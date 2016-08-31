@@ -12,10 +12,9 @@ namespace cloud\core\model;
 
 use cloud\Cloud;
 use cloud\core\utils\Cache;
-use CActiveRecord;
-use CException;
+use yii\db\ActiveRecord;
 
-class Model extends CActiveRecord {
+class Model extends ActiveRecord {
 
     /**
      * 是否允许缓存

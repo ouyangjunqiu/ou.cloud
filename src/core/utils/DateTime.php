@@ -226,7 +226,9 @@ class DateTime {
 	 * @param string $strTime
 	 * @return array 时间范围
 	 */
-	public static function getStrTimeScope( $strTime, $time = TIMESTAMP ) {
+	public static function getStrTimeScope( $strTime, $time = null ) {
+		if($time == null)
+			$time = time();
 		switch ( $strTime ) {
 			case 'today':
 				$start = strtotime( date( 'today 00:00:00', $time ) );

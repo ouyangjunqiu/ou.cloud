@@ -22,7 +22,7 @@ class File {
 	 * @return object
 	 */
 	public static function getUpload( $fileArea, $module = 'temp' ) {
-		return Cloud::engine()->io()->upload( $fileArea, $module );
+		return Cloud::io()->upload( $fileArea, $module );
 	}
 
 	/**
@@ -30,7 +30,7 @@ class File {
 	 * @return string
 	 */
 	public static function getAttachUrl() {
-		return Cloud::engine()->io()->getBasePath();
+		return Cloud::io()->getBasePath();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class File {
 	 * @return string 
 	 */
 	public static function fileName( $fileName ) {
-		return Cloud::engine()->io()->file()->fileName( $fileName );
+		return Cloud::io()->file()->fileName( $fileName );
 	}
 
 	/**
@@ -48,7 +48,7 @@ class File {
 	 * @return array 成功读取图片信息， false 读取失败
 	 */
 	public static function imageSize( $image ) {
-		return Cloud::engine()->io()->file()->imageSize( $image );
+		return Cloud::io()->file()->imageSize( $image );
 	}
 
 	/**
@@ -57,7 +57,7 @@ class File {
 	 * @return integer 返回文件大小的字节数，如果出错返回 false 并生成一条 E_WARNING 级的错误。 
 	 */
 	public static function fileSize( $file ) {
-		return Cloud::engine()->io()->file()->fileSize( $file );
+		return Cloud::io()->file()->fileSize( $file );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class File {
 	 * @return boolean
 	 */
 	public static function fileExists( $file ) {
-		return Cloud::engine()->io()->file()->fileExists( $file );
+		return Cloud::io()->file()->fileExists( $file );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class File {
 	 * @return int|false
 	 */
 	public static function createFile( $fileName, $content ) {
-		return Cloud::engine()->io()->file()->createFile( $fileName, $content );
+		return Cloud::io()->file()->createFile( $fileName, $content );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class File {
 	 * @return string
 	 */
 	public static function readFile( $fileName ) {
-		return Cloud::engine()->io()->file()->readFile( $fileName );
+		return Cloud::io()->file()->readFile( $fileName );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class File {
 	 * @return string
 	 */
 	public static function getTempPath() {
-		return Cloud::engine()->io()->file()->getTempPath();
+		return Cloud::io()->file()->getTempPath();
 	}
 
 	/**
@@ -102,7 +102,7 @@ class File {
 	 * @return boolean
 	 */
 	public static function clearDir( $dir ) {
-		return Cloud::engine()->io()->file()->clearDir( $dir );
+		return Cloud::io()->file()->clearDir( $dir );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class File {
 	 * @return boolean
 	 */
 	public static function deleteFile( $fileName ) {
-		return Cloud::engine()->io()->file()->deleteFile( $fileName );
+		return Cloud::io()->file()->deleteFile( $fileName );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class File {
 	 * @param array $except
 	 */
 	public static function clearDirs( $srcDir, $except = array() ) {
-		return Cloud::engine()->io()->file()->clearDirs( $srcDir, $except );
+		return Cloud::io()->file()->clearDirs( $srcDir, $except );
 	}
 
 	/**

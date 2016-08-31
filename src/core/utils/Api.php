@@ -7,7 +7,7 @@
 
 namespace cloud\core\utils;
 
-class Api extends System {
+class Api {
 
 	/**
 	 * 默认的CURL选项
@@ -27,13 +27,6 @@ class Api extends System {
 		CURLOPT_VERBOSE => 1 //
 	);
 
-	/**
-	 * @param string $className
-	 * @return Api
-	 */
-	public static function getInstance( $className = __CLASS__ ) {
-		return parent::getInstance( $className );
-	}
 
 	/**
 	 * 设置curl选项

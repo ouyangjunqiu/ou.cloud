@@ -1,10 +1,8 @@
 <?php
 
 namespace cloud\core\components;
-use CApplicationComponent;
-use CException;
-use cloud\Cloud;
-use Exception;
+use yii\base\Exception;
+use yii\base\Component;
 
 /**
  * SimpleLDAP
@@ -17,7 +15,7 @@ use Exception;
  * @version 0.1
  * @link http://github.com/klaussilveira/SimpleLDAP
  */
-class Ldap extends CApplicationComponent {
+class Ldap extends Component {
 	
 	/**
 	 * Holds the LDAP server connection
@@ -74,7 +72,7 @@ class Ldap extends CApplicationComponent {
 	public function init()
 	{
 		if(!function_exists('ldap_connect')){
-			throw new CException( Cloud::lang( 'Not support', 'error' ) . ':Ldap' );
+			throw new Exception( \Yii::t('cloud' ,'Not support') . ':Ldap' );
 		}
 		$this->ldap = ldap_connect($this->hostname, $this->port);
 

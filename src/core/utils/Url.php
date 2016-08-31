@@ -19,7 +19,7 @@ class Url {
      */
     public static function getUrl( $url ) {
         if ( count( explode( '/', $url ) ) == 3 && !preg_match( "/^http/iUs", $url ) ) {
-            $url = Cloud::app()->urlManager->createUrl( $url );
+            $url = Cloud::$app->urlManager->createUrl( $url );
         } else {
             $urlInfo = parse_url( $url );
             $url = isset( $urlInfo['scheme'] ) ? $url : 'http://' . $url;

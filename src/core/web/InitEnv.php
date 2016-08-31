@@ -16,11 +16,9 @@ use cloud\core\utils\Env;
 class InitEnv
 {
     public static function handle(){
-        define( 'STATICURL', Cloud::$app->assetManager->getBaseUrl() );
+        define( 'STATICURL', Cloud::$app->getUrlManager()->getBaseUrl());
 
         define( 'IN_MOBILE', Env::checkInMobile() );
-        define( 'TIMESTAMP', time() );
-        define( 'IN_APP', Env::checkInApp() );
 
         if ( function_exists( 'ini_get' ) ) {
             $memorylimit = @ini_get( 'memory_limit' );
@@ -30,11 +28,9 @@ class InitEnv
         }
 
         $global = array(
-            'timestamp' => TIMESTAMP,
-            'version' => VERSION,
             'clientip' => Env::getClientIp(),
             'referer' => '',
-            'charset' => CHARSET,
+            'charset' => Cloud::$app->charset,
             'authkey' => '',
             'newversion' => 0,
             'config' => array(),

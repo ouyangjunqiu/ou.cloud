@@ -8,6 +8,7 @@
 namespace cloud\core\controllers;
 
 use cloud\Cloud;
+use cloud\core\web\Application;
 use yii\helpers\Json;
 
 class Controller extends \yii\web\Controller {
@@ -23,12 +24,6 @@ class Controller extends \yii\web\Controller {
      */
     public $layout = '';
 
-    /**
-     * 当前模块可访问的静态资源文件路径
-     * @var string 
-     */
-    private $_assetUrl = '';
-
 
 
     /**
@@ -36,31 +31,21 @@ class Controller extends \yii\web\Controller {
      * @return void 
      */
     public function actionError() {
-        $error = Cloud::$app->errorHandler->error;
+        $error = Cloud::$app->getErrorHandler()->exception;
         if ( $error ) {
-            $isAjaxRequest = Cloud::$app->request->getIsAjaxRequest();
+            $isAjaxRequest = Cloud::$app->request->getIsAjax();
             $this->error( $error['message'], '', array(), $isAjaxRequest );
         }
     }
 
     /**
      * 覆盖父类渲染视图方法，在视图变量处增加静态资源路径，合并语言包文件方法
-     * @param string $view @see CController::render
-     * @param array $data @see CController::render
-     * @param bool $return
-     * @param array $langSources
-     * @return mixed @see CController::render
+     * @param string $view @see \yii\web\Controller::render
+     * @param array $params @see \yii\web\Controller::render
+     * @return mixed @see \yii\web\Controller::render
      */
-    public function render( $view, $data = null, $return = false, $langSources = array() ) {
-        if ( is_null( $data ) ) {
-            $data = array();
-        }
-        Cloud::app()->setting->set( 'pageTitle', $this->getPageTitle() );
-        Cloud::app()->setting->set( 'breadCrumbs', $this->getPageState( 'breadCrumbs', array() ) );
-        $this->setPageState( 'breadCrumbs', null );
-        !isset( $data['assetUrl'] ) && $data['assetUrl'] = $this->getAssetUrl();
-      //  $data['lang'] = YJCloud::getLangSources( $langSources );
-        return parent::render( $view, $data, $return );
+    public function render( $view, $params = []) {
+        return parent::render( $view, $params);
     }
 
     /**
@@ -70,6 +55,12 @@ class Controller extends \yii\web\Controller {
      * @return void
      */
     public function ajaxReturn( $data, $type = '' ) {
+        /**
+         * @var Application $app
+         */
+        $app = Cloud::$app;
+        $charset = $app->charset;
+
         if ( empty( $type ) ) {
             $type = 'json';
         }
@@ -77,23 +68,23 @@ class Controller extends \yii\web\Controller {
         switch ( strtoupper( $type ) ) {
             case 'JSON' :
                 // 返回JSON数据格式到客户端 包含状态信息
-                header( 'Content-Type:application/json; charset=' . CHARSET );
+                header( 'Content-Type:application/json; charset=' . $charset );
                 exit( JSON::encode( $data ) );
                 break;
             case 'XML' :
                 // 返回xml格式数据
-                header( 'Content-Type:text/xml; charset=' . CHARSET );
+                header( 'Content-Type:text/xml; charset=' . $charset );
                 exit( xml_encode( $data ) );
                 break;
             case 'JSONP':
                 // 返回JSONP数据格式到客户端 包含状态信息
-                header( 'Content-Type:text/html; charset=' . CHARSET );
+                header( 'Content-Type:text/html; charset=' . $charset );
                 $handler = isset( $_GET['callback'] ) ? $_GET['callback'] : self::DEFAULT_JSONP_HANDLER;
                 exit( $handler . '(' . (!empty( $data ) ? JSON::encode( $data ) : '') . ');' );
                 break;
             case 'EVAL' :
                 // 返回可执行的js脚本
-                header( 'Content-Type:text/html; charset=' . CHARSET );
+                header( 'Content-Type:text/html; charset=' . $charset );
                 exit( $data );
                 break;
             default :
@@ -180,7 +171,7 @@ class Controller extends \yii\web\Controller {
     public function showMessage( $message, $jumpUrl = '', $params = array(), $status = 1, $ajax = false ) {
 		
         // AJAX提交方式的处理
-        if ( $ajax === true || Cloud::$app->request->getIsAjaxRequest() ) {
+        if ( $ajax === true || Cloud::$app->request->getIsAjax() ) {
             $data = is_array( $ajax ) ? $ajax : array();
             $data['msg'] = $message;
             $data['isSuccess'] = $status;
@@ -214,8 +205,8 @@ class Controller extends \yii\web\Controller {
             }
         }
         // 提示标题
-        $params['msgTitle'] = $status ? Cloud::lang( 'Operation successful', 'message' ) :
-            Cloud::lang( 'Operation failure', 'message' );
+        $params['msgTitle'] = $status ? Cloud::t('cloud', 'Operation successful') :
+            Cloud::t('cloud', 'Operation failure');
         // 如果设置了关闭窗口，则提示完毕后自动关闭窗口
         if ( isset( $params['closeWin'] ) ) {
             $params['jumpUrl'] = 'javascript:window.close();';
@@ -230,48 +221,11 @@ class Controller extends \yii\web\Controller {
         if ( $status ) {
             $this->redirect( $params['jumpUrl'] );
         } else {
-            // 渲染视图
-            $viewPath = $basePath = Cloud::app()->getViewPath();
-            $viewFile = $this->resolveViewFile( 'showMessage', $viewPath, $basePath );
-            $output = $this->renderFile( $viewFile, $params, true );
+            $output = $this->renderFile( '@app/theme/showMessage', $params);
             echo $output;
         }
-        exit();
+        \Yii::$app->end();
     }
-
-    /**
-     * 获取控制器所属模块的静态资源发布文件夹
-     * @param String $module 模块名
-     * @return String 文件夹路径
-     */
-    public function getAssetUrl( $module = '' ) {
-        if ( empty( $this->_assetUrl ) ) {
-            if ( empty( $module ) ) {
-                $module = Cloud::getCurrentModuleName();
-            }
-            $this->_assetUrl = Cloud::app()->assetManager->getAssetsUrl( $module );
-        }
-        return $this->_assetUrl;
-    }
-
-    /**
-     * 设置title
-     * @param string $title
-     */
-    public function setTitle( $title ) {
-        Cloud::app()->setting->set( 'title', $title );
-    }
-
-    /**
-     * ICAPPLICATION组件会调用各控制器的此方法进行验证，子类可重写这个实现各自的验证
-     * 规则
-     * @param string $routes
-     * @return boolean
-     */
-    public function filterRoutes( $routes ) {
-        return false;
-    }
-
 
     public function renderJson($data)
     {
