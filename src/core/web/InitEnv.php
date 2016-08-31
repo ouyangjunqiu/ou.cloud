@@ -10,15 +10,11 @@ namespace cloud\core\web;
 
 use cloud\Cloud;
 use cloud\core\utils\Convert;
-use cloud\core\utils\DateTime;
 use cloud\core\utils\Env;
 
 class InitEnv
 {
     public static function handle(){
-        define( 'STATICURL', Cloud::$app->getUrlManager()->getBaseUrl());
-
-        define( 'IN_MOBILE', Env::checkInMobile() );
 
         if ( function_exists( 'ini_get' ) ) {
             $memorylimit = @ini_get( 'memory_limit' );
@@ -38,17 +34,7 @@ class InitEnv
             'user' => array(),
             'cookie' => array(),
             'session' => array(),
-            'lunar' => DateTime::getlunarCalendar(),
-            'staticurl' => STATICURL
         );
-
-        $global['phpself'] = Env::getScriptUrl();
-        $sitePath = substr( $global['phpself'], 0, strrpos( $global['phpself'], '/' ) );
-        $global['isHTTPS'] = Env::isHttps();
-        $global['siteurl'] = Env::getSiteUrl( $global['isHTTPS'], $sitePath );
-        $url = parse_url( $global['siteurl'] );
-        $global['siteroot'] = isset( $url['path'] ) ? $url['path'] : '';
-        $global['siteport'] = empty( $_SERVER['SERVER_PORT'] ) || $_SERVER['SERVER_PORT'] == '80' || $_SERVER['SERVER_PORT'] == '443' ? '' : ':' . $_SERVER['SERVER_PORT'];
 
         Cloud::$app->setting->copyFrom( $global );
     }
