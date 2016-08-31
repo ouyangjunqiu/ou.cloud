@@ -5,10 +5,9 @@
  * @author oshine <oshine.ouyang@da-mai.com>
  */
 
-namespace cloud\core\web\controllers;
+namespace cloud\core\web;
 
 use cloud\Cloud;
-use cloud\core\web\Application;
 use yii\helpers\Json;
 
 class Controller extends \yii\web\Controller {
@@ -17,14 +16,6 @@ class Controller extends \yii\web\Controller {
      * 默认Jsonp回调函数
      */
     const DEFAULT_JSONP_HANDLER = 'jsonpReturn';
-
-    /**
-     * 布局类型
-     * @var string 
-     */
-    public $layout = '';
-
-
 
     /**
      * 错误异常处理
@@ -69,7 +60,7 @@ class Controller extends \yii\web\Controller {
             case 'JSON' :
                 // 返回JSON数据格式到客户端 包含状态信息
                 header( 'Content-Type:application/json; charset=' . $charset );
-                exit( JSON::encode( $data ) );
+                exit( Json::encode( $data ) );
                 break;
             case 'XML' :
                 // 返回xml格式数据
@@ -80,7 +71,7 @@ class Controller extends \yii\web\Controller {
                 // 返回JSONP数据格式到客户端 包含状态信息
                 header( 'Content-Type:text/html; charset=' . $charset );
                 $handler = isset( $_GET['callback'] ) ? $_GET['callback'] : self::DEFAULT_JSONP_HANDLER;
-                exit( $handler . '(' . (!empty( $data ) ? JSON::encode( $data ) : '') . ');' );
+                exit( $handler . '(' . (!empty( $data ) ? Json::encode( $data ) : '') . ');' );
                 break;
             case 'EVAL' :
                 // 返回可执行的js脚本
