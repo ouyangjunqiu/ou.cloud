@@ -1,6 +1,6 @@
 <?php
-namespace app\modules\main\controllers;
-use cloud\core\web\Controller;
+namespace app\modules\main\cli;
+use cloud\core\cli\Controller;
 
 /**
  * @file DefaultController.php
@@ -10,7 +10,7 @@ use cloud\core\web\Controller;
 class DefaultController extends Controller
 {
     public function actionIndex(){
-        echo "hello! web";
+        echo "hello! cli";
     }
 
 }

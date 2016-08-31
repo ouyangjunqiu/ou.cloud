@@ -10,11 +10,13 @@ namespace cloud\core\web;
 
 use cloud\Cloud;
 use cloud\core\utils\Convert;
+use cloud\core\utils\DateTime;
 use cloud\core\utils\Env;
 
 class InitEnv
 {
     public static function handle(){
+        defined( 'STATICURL') or define( 'STATICURL', Cloud::$app->getUrlManager()->getBaseUrl());
 
         if ( function_exists( 'ini_get' ) ) {
             $memorylimit = @ini_get( 'memory_limit' );
@@ -34,9 +36,9 @@ class InitEnv
             'user' => array(),
             'cookie' => array(),
             'session' => array(),
+            'staticurl' => STATICURL
         );
-
-        Cloud::$app->setting->copyFrom( $global );
+        Cloud::$app->getSetting()->copyFrom( $global );
     }
 
 }
