@@ -5,9 +5,10 @@
  * @author oshine <oshine.ouyang@da-mai.com>
  */
 
-namespace cloud\core\web;
+namespace cloud\core\web\controllers;
 
 use cloud\Cloud;
+use cloud\core\web\Application;
 use yii\helpers\Json;
 
 class Controller extends \yii\web\Controller {

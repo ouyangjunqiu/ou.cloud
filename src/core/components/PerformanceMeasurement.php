@@ -9,7 +9,6 @@
 
 namespace cloud\core\components;
 
-use cloud\Cloud;
 use cloud\core\utils\Convert;
 use yii\base\Component;
 
@@ -89,11 +88,6 @@ class PerformanceMeasurement extends Component {
             return Convert::sizeCount( $usage );
         }
         return $usage;
-    }
-
-    public function getDbStats() {
-        $stats = Cloud::app()->db->getStats();
-        return $stats[0];
     }
 
     /**
