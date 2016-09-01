@@ -44,3 +44,5 @@ class Cloud extends \Yii
     }
 
 }
+
+\Yii::setAlias('@cloud',__DIR__);
