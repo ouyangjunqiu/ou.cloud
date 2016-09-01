@@ -2,7 +2,7 @@
 return array(
     // ----------------------------  CONFIG ENV  -----------------------------//
     'env' => array(
-        'language' => 'zh_cn'
+        'language' => 'zh_cn',
     ),
     // ----------------------------  CONFIG DB  ----------------------------- //
     'databases'=>array(
@@ -18,5 +18,17 @@ return array(
         ),
 
     ),
+
+    'components' => array(
+        // URL资源管理器
+        'urlManager' => array(
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
+            'showScriptName' => false,
+            'rules' => array(
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>', // Not Coding Standard
+            )
+        ),
+    )
 
 );

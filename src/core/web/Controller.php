@@ -18,25 +18,15 @@ class Controller extends \yii\web\Controller {
     const DEFAULT_JSONP_HANDLER = 'jsonpReturn';
 
     /**
-     * 错误异常处理
-     * @return void 
+     * @return array
      */
-    public function actionError() {
-        $error = Cloud::$app->getErrorHandler()->exception;
-        if ( $error ) {
-            $isAjaxRequest = Cloud::$app->request->getIsAjax();
-            $this->error( $error['message'], '', array(), $isAjaxRequest );
-        }
-    }
-
-    /**
-     * 覆盖父类渲染视图方法，在视图变量处增加静态资源路径，合并语言包文件方法
-     * @param string $view @see \yii\web\Controller::render
-     * @param array $params @see \yii\web\Controller::render
-     * @return mixed @see \yii\web\Controller::render
-     */
-    public function render( $view, $params = []) {
-        return parent::render( $view, $params);
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
     }
 
     /**
@@ -218,6 +208,9 @@ class Controller extends \yii\web\Controller {
         \Yii::$app->end();
     }
 
+    /**
+     * @param $data
+     */
     public function renderJson($data)
     {
         $this->ajaxReturn($data,"json");
