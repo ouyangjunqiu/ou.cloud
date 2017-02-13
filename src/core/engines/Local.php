@@ -1,4 +1,15 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
+
+namespace cloud\core\engines;
+
+use cloud\core\engines\local\LocalIo;
+use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 
 /**
  * Cloud本地环境引擎
@@ -7,12 +18,6 @@
  * @author oshine <oyjqdlp@126.com>
  * @version $Id:
  */
-
-namespace cloud\core\engines;
-
-use cloud\core\engines\local\LocalIo;
-use yii\base\Exception;
-use yii\helpers\ArrayHelper;
 
 class Local extends Engine {
 

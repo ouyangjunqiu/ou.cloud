@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
+
 /**
  * FTP工具类，提供FTP操作的所有方法
  *

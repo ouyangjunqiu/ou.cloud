@@ -1,17 +1,21 @@
 <?php
-
 /**
- * 性能检测组件，可用于生成模式检测性能
- *
- * @package cloud.core.components
- * @author oshine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
+
 
 namespace cloud\core\components;
 
 use cloud\core\utils\Convert;
 use yii\base\Component;
 
+/**
+ * 性能检测组件，可用于生成模式检测性能
+ *
+ * @package cloud.core.components
+ */
 class PerformanceMeasurement extends Component {
 
     /**

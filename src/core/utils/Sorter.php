@@ -1,11 +1,11 @@
 <?php
-namespace cloud\core\utils;
 /**
- * Created by PhpStorm.
- * User: ouyangjunqiu
- * Date: 16/4/27
- * Time: 上午8:54
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
+namespace cloud\core\utils;
+
 class Sorter {
     private $field;
 

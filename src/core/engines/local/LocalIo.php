@@ -1,11 +1,8 @@
 <?php
-
 /**
- * 本地IO,实现IO接口
- * 
- * @package ext.enginedriver.local
  * @author oshine <oyjqdlp@126.com>
- * @version $Id
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\engines\local;
@@ -14,6 +11,13 @@ use CException;
 use cloud\Cloud;
 use cloud\core\engines\Io;
 
+/**
+ * 本地IO,实现IO接口
+ *
+ * @package ext.enginedriver.local
+ * @author oshine <oyjqdlp@126.com>
+ * @version $Id
+ */
 class LocalIo extends Io {
 
     /**

@@ -1,17 +1,21 @@
 <?php
-
 /**
- * 数据层操作的抽象基类,提供给所有Model封装过的基本操作
- * 
- * @package cloud.core.model
- * @version $Id$
- * @author oShine
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\model;
 
 use yii\db\ActiveRecord;
 
+/**
+ * 数据层操作的抽象基类,提供给所有Model封装过的基本操作
+ *
+ * @package cloud.core.model
+ * @version $Id$
+ * @author oShine
+ */
 class Model extends ActiveRecord {
 
     /**

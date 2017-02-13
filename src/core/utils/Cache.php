@@ -1,9 +1,13 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
 
 /**
  * 缓存工具类，提供AppCloud缓存组件的简短写法及系统缓存方法封装
  * @package cloud.core.utils
- * @version $Id: cache.php -1   $
  */
 
 namespace cloud\core\utils;

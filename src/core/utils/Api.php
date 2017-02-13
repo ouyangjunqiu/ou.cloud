@@ -1,8 +1,13 @@
 <?php
 /**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
+
+/**
  * 提供api curl的连接调用
  * @package application.core.utils
- * @version $Id$
  */
 
 namespace cloud\core\utils;

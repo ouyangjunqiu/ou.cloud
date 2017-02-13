@@ -1,9 +1,8 @@
 <?php
 /**
- * 本地环境上传类
- * @file LocalUpload.php
- * @author ouyangjunqiu
- * @version Created by 16/6/15 09:27
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\engines\local;

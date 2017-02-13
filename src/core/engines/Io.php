@@ -1,4 +1,11 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
+
+namespace cloud\core\engines;
 
 /**
  * IO抽象父类,提供本地及云引擎之间的IO读写接口
@@ -6,8 +13,6 @@
  * @version $Id$
  * @author oshine <oyjqdlp@126.com>
  */
-
-namespace cloud\core\engines;
 
 abstract class Io {
 

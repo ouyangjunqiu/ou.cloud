@@ -1,9 +1,13 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
 
 /**
  * 系统环境与变量处理工具类库
  * @package application.core.utils
- * @version $Id: env.php -1   $
  */
 
 namespace cloud\core\utils;

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
 
 /**
  * XML助手类,提供xml转换到数组和数组转换到xml方法

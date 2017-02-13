@@ -1,11 +1,10 @@
 <?php
 
 /**
- * 系统配置处理
- * @package cloud.core.components
- * @author oshine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
-
 namespace cloud\core\components;
 
 use yii\base\Component;

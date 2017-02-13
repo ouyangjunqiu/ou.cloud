@@ -1,9 +1,15 @@
 <?php
+
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
+
 /**
  * 图像操作类库，提供生成缩略图，添加水印等一系列操作
  * 
  * @package application.core.utils
- * @author oShine <oshine.ouyang@da-mai.com>
  * @version $Id$
  */
 

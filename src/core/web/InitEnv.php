@@ -1,8 +1,8 @@
 <?php
 /**
- * @file InitEnvEvent.php
- * @author ouyangjunqiu
- * @version Created by 16/8/30 09:18
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\web;

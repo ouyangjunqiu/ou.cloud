@@ -1,16 +1,19 @@
 <?php
 /**
- * 引擎驱动抽象父类,初始化程序配置文件，提供IO与初始化配置接口给子类扩展
- * 
- * @package cloud.core.components
- * @author oshine <oshine.ouyang@da-mai.com>
- * @version $Id$
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\engines;
 
 use yii\helpers\ArrayHelper;
 
+/**
+ * 引擎驱动抽象父类,初始化程序配置文件，提供IO与初始化配置接口给子类扩展
+ *
+ * @package cloud.core.components
+ */
 abstract class Engine {
 
     /**

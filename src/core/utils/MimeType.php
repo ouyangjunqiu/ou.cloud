@@ -1,8 +1,8 @@
 <?php
 /**
- * @file MimeType.php
- * @author ouyangjunqiu
- * @version Created by 16/7/7 12:11
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\utils;

@@ -1,17 +1,19 @@
 <?php
 
 /**
- * 转换工具类,提供字符串及数字类型的转换，如字节数，颜色值等
- * 
- * @package cloud.core.utils
- * @version $Id: convert.php -1   $
- * @author oShine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\utils;
 
 use cloud\extensions\chinese\Chinese;
-
+/**
+ * 转换工具类,提供字符串及数字类型的转换，如字节数，颜色值等
+ *
+ * @package cloud.core.utils
+ */
 class Convert {
 
 	/**

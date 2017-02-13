@@ -1,17 +1,20 @@
 <?php
 /**
- * 本地文件处理类，基本上就是php文件函数的封装,实现IO接口
- * 
- * @package ext.enginedriver.local
  * @author oshine <oyjqdlp@126.com>
- * @version $Id
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\engines\local;
 
-
 use cloud\Cloud;
-
+/**
+ * 本地文件处理类，基本上就是php文件函数的封装,实现IO接口
+ *
+ * @package ext.enginedriver.local
+ * @author oshine <oyjqdlp@126.com>
+ * @version $Id
+ */
 class LocalFile {
 
 	private static $_instance;

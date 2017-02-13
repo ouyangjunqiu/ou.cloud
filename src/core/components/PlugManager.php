@@ -1,16 +1,20 @@
 <?php
-
 /**
- * 核心组件------插件管理器组件类，必须继承CApplicationComponent
- * @package cloud.core.components
- * @author oshine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
+
 
 namespace cloud\core\components;
 
 use cloud\Cloud;
 use yii\base\Component;
-
+/**
+ * 核心组件------插件管理器组件类，必须继承CApplicationComponent
+ * @package cloud.core.components
+ * @author oshine <oshine.ouyang@da-mai.com>
+ */
 abstract class PlugManager extends Component {
 
     /**

@@ -1,8 +1,8 @@
 <?php
 /**
- * Application,模块及分发控制器
- * @package cloud.core.components
- * @author oShine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\web;
@@ -13,6 +13,10 @@ use cloud\core\components\Setting;
 use cloud\core\utils\Module;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Application,模块及分发控制器
+ * @package cloud.core.components
+ */
 class Application extends \yii\web\Application {
 
     /**

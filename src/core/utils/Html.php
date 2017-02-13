@@ -1,8 +1,8 @@
 <?php
 /**
- * User: ouyangjunqiu
- * Date: 16/5/3
- * Time: 下午2:16
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 
 namespace cloud\core\utils;

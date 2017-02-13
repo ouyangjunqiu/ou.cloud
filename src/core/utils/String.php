@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
+ */
 
 /**
  * 字符串操作工具类,提供字符串操作的所需方法，如过滤，截取，查找，加解密等
@@ -12,7 +17,7 @@ namespace cloud\core\utils;
 use cloud\extensions\Tree;
 use cloud\Cloud;
 
-class String {
+class String{
 
 	/**
 	 * 检测一个字符串是否email格式

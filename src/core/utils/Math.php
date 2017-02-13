@@ -1,8 +1,8 @@
 <?php
 /**
- * Class Math
- * @package cloud\core\utils
- * @author oShine <oshine.ouyang@da-mai.com>
+ * @author oshine <oyjqdlp@126.com>
+ * @link https://github.com/ouyangjunqiu/ou.cloud
+ * @see https://github.com/ouyangjunqiu/ou.cloud
  */
 namespace cloud\core\utils;
 
